@@ -16,5 +16,6 @@ def measure_time(n: int, max_delay: int) -> float:
     asyncio.run(wait_n(n, max_delay))
     return (time.monotonic() - start_time) / n
 
+
 if __name__ == '__main__':
     print(measure_time(5, 9))
