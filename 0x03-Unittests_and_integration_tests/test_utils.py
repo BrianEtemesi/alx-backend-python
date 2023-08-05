@@ -78,7 +78,7 @@ class TestMemoize(unittest.TestCase):
 
         # use @patch to mock a_method of TestClass
         with patch.object(TestClass, 'a_method') as mock_a_method:
-            
+
             # set the return value for the mocked method
             mock_a_method.return_value = 42
 
