@@ -104,5 +104,6 @@ class TestMemoize(unittest.TestCase):
             # assert that the mocked a_method is called only once
             mock_a_method.assert_called_once()
 
+
 if __name__ == '__main__':
     unittest.main()
