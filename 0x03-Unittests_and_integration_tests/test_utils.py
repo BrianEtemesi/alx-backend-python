@@ -3,7 +3,7 @@
 test module for util
 """
 import unittest
-from utils import access_nested_map, get_json
+from utils import access_nested_map, get_json, memoize
 from parameterized import parameterized
 from unittest.mock import patch
 
@@ -39,7 +39,7 @@ class TestAccessNestedMap(unittest.TestCase):
 
 class TestGetJson(unittest.TestCase):
     """
-    unit test classs for get_json method
+    unit test class for get_json method
     """
 
     @parameterized.expand([
@@ -56,3 +56,42 @@ class TestGetJson(unittest.TestCase):
 
         mock_get.return_value = mock_response
         self.assertEqual(get_json(test_url), test_payload)
+
+
+class TestMemoize(unittest.TestCase):
+    """
+    unit test class for utils.memoize decorator
+    """
+
+    def test_memoize(self):
+        """
+        test memoize
+        """
+        class TestClass:
+
+            def a_method(self):
+                return 42
+
+            @memoize
+            def a_property(self):
+                return self.a_method()
+
+        # use @patch to mock a_method of TestClass
+        with patch.object(TestClass, 'a_method') as mock_a_method:
+            
+            # set the return value for the mocked method
+            mock_a_method.return_value = 42
+
+            # create an instance of TestClass
+            obj = TestClass()
+
+            # call a_property twice
+            result1 = obj.a_property
+            result2 = obj.a_property
+
+            # assert that the results are correct
+            self.assertEqual(result1, 42)
+            self.assertEqual(result2, 42)
+
+            # assert that the mocked a_method is called only once
+            mock_a_method.assert_called_once()
